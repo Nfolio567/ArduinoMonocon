@@ -1,0 +1,10 @@
+﻿if(leave == 1){
+    if(takt == 0){
+        state = 1;
+    }
+}
+if(leave == 0){
+    if(takt == 1){
+        leave = 1;
+    }
+}
