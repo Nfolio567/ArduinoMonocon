@@ -14,10 +14,11 @@ void setup() {
   pinMode(clk,1);
   pinMode(bzaa,1);
   pinMode(photoic,0);
+
 }
 
 void loop() {
-  int phic = digitalRead(photoic);
+  /*int phic = digitalRead(photoic);
   if(phic == 1){
     noTone(bzaa);
     digitalWrite(nasgvcc[0], 0);
@@ -46,5 +47,8 @@ void loop() {
     noTone(bzaa);
     delay(1000);
     value = 0;
-  }
+  }*/
+  Motor("R", 1000);
+  motorStop();
+  delay(1000);
 }

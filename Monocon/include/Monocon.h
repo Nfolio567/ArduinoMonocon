@@ -2,14 +2,11 @@
 #define Monocon_h
     #include <Arduino.h>
 
-    class Monocon {
-    private:
-        /* data */
+    class Actuator {
     public:
         enum Side {
             L,
-            R,
-            ST
+            R
         };
         enum Number {
             Num0,
@@ -24,9 +21,17 @@
             Num9,
             None
         };
-        Monocon(const int clockPinNum);
-        ~Monocon();
-        void segment(const int pinNum[8], const int vccPinNum[2], Side side, Number num, bool displayDots);
-        void motor(const int pinNum[2], Side side);
+        const int clockPin;
+        const int buzzerPin;
+        const int* segmentPin;
+        const int* segmentVcc;
+        const int* motorPin;
+
+        Actuator(const int clockPin = 0, const int buzzerPin = 0, const int segmentPin[8] = 0, const int segmentVcc[2] = 0, const int motorPin[2] = 0);
+        ~Actuator();
+        void segment(Side side, Number num, bool displayDots = false);
+        void motor(Side side, const unsigned long ms);
+        void motorStop();
+        void buzzer(const int hertz);
     };
 #endif
