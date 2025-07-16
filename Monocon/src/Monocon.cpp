@@ -6,278 +6,55 @@ Actuator::Actuator(
   const int buzzerPin,
   const int* segmentPin,
   const int* segmentVcc,
-  const int* motorPin
+  const int* motorPin,
+  const int* stMotorPin
 ):
   clockPin(clockPin),
   buzzerPin(buzzerPin),
   segmentPin(segmentPin),
   segmentVcc(segmentVcc),
-  motorPin(motorPin)
+  motorPin(motorPin),
+  stMotorPin(stMotorPin)
 {}
 
 Actuator::~Actuator() {
 }
 
-/**
- * @param pinNum: Number of segment pin
- * @param vccPinNum: Number of vcc pin (LR)
- * @param 
- */
-void Actuator::segment(Side side, Number num, bool displayDots) {
-  if (side == L) {
-    digitalWrite(this->segmentVcc[0], HIGH);
-    digitalWrite(this->segmentVcc[1], LOW);
-    switch (num) {
-      case 0: {
-        digitalWrite(this->segmentPin[0], HIGH);//0
-        digitalWrite(this->segmentPin[1], HIGH);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], HIGH);
-        digitalWrite(this->segmentPin[4], HIGH);
-        digitalWrite(this->segmentPin[5], HIGH);
-        digitalWrite(this->segmentPin[6], LOW);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case 1: {
-        digitalWrite(this->segmentPin[0], LOW);//1
-        digitalWrite(this->segmentPin[1], HIGH);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], LOW);
-        digitalWrite(this->segmentPin[4], LOW);
-        digitalWrite(this->segmentPin[5], LOW);
-        digitalWrite(this->segmentPin[6], LOW);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case 2: {
-        digitalWrite(this->segmentPin[0], HIGH);//2
-        digitalWrite(this->segmentPin[1], HIGH);
-        digitalWrite(this->segmentPin[2], LOW);
-        digitalWrite(this->segmentPin[3], HIGH);
-        digitalWrite(this->segmentPin[4], HIGH);
-        digitalWrite(this->segmentPin[5], LOW);
-        digitalWrite(this->segmentPin[6], HIGH);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case 3: {
-        digitalWrite(this->segmentPin[0], HIGH);//3
-        digitalWrite(this->segmentPin[1], HIGH);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], HIGH);
-        digitalWrite(this->segmentPin[4], LOW);
-        digitalWrite(this->segmentPin[5], LOW);
-        digitalWrite(this->segmentPin[6], HIGH);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case 4: {
-        digitalWrite(this->segmentPin[0], LOW);//4
-        digitalWrite(this->segmentPin[1], HIGH);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], LOW);
-        digitalWrite(this->segmentPin[4], LOW);
-        digitalWrite(this->segmentPin[5], HIGH);
-        digitalWrite(this->segmentPin[6], HIGH);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case 5: {
-        digitalWrite(this->segmentPin[0], HIGH);//5
-        digitalWrite(this->segmentPin[1], LOW);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], HIGH);
-        digitalWrite(this->segmentPin[4], LOW);
-        digitalWrite(this->segmentPin[5], HIGH);
-        digitalWrite(this->segmentPin[6], HIGH);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case 6: {
-        digitalWrite(this->segmentPin[0], HIGH);//6
-        digitalWrite(this->segmentPin[1], LOW);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], HIGH);
-        digitalWrite(this->segmentPin[4], HIGH);
-        digitalWrite(this->segmentPin[5], HIGH);
-        digitalWrite(this->segmentPin[6], HIGH);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case 7: {
-        digitalWrite(this->segmentPin[0], HIGH);//7
-        digitalWrite(this->segmentPin[1], HIGH);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], LOW);
-        digitalWrite(this->segmentPin[4], LOW);
-        digitalWrite(this->segmentPin[5], HIGH);
-        digitalWrite(this->segmentPin[6], LOW);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case 8: {
-        digitalWrite(this->segmentPin[0], HIGH);
-        digitalWrite(this->segmentPin[1], HIGH);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], HIGH);
-        digitalWrite(this->segmentPin[4], HIGH);
-        digitalWrite(this->segmentPin[5], HIGH);
-        digitalWrite(this->segmentPin[6], HIGH);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case 9: {
-        digitalWrite(this->segmentPin[0], HIGH);//9
-        digitalWrite(this->segmentPin[1], HIGH);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], HIGH);
-        digitalWrite(this->segmentPin[4], LOW);
-        digitalWrite(this->segmentPin[5], HIGH);
-        digitalWrite(this->segmentPin[6], HIGH);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case None: {
-        digitalWrite(this->segmentPin[0], LOW);//nothing
-        digitalWrite(this->segmentPin[1], LOW);
-        digitalWrite(this->segmentPin[2], LOW);
-        digitalWrite(this->segmentPin[3], LOW);
-        digitalWrite(this->segmentPin[4], LOW);
-        digitalWrite(this->segmentPin[5], LOW);
-        digitalWrite(this->segmentPin[6], LOW);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-    }
-  } else if (side == R) {
-    digitalWrite(this->segmentVcc[0], LOW);
-    digitalWrite(this->segmentVcc[1], HIGH);
+void Actuator::segment(Side side, Content content, bool displayDots) {
+  digitalWrite(this->clockPin, LOW);
 
-    switch (num) {
-      case 0: {
-        digitalWrite(this->segmentPin[0], HIGH);//0
-        digitalWrite(this->segmentPin[1], HIGH);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], HIGH);
-        digitalWrite(this->segmentPin[4], HIGH);
-        digitalWrite(this->segmentPin[5], HIGH);
-        digitalWrite(this->segmentPin[6], LOW);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
+  switch (side) {
+    case LEFT: {
+      digitalWrite(this->segmentVcc[0], HIGH);
+      digitalWrite(this->segmentVcc[1], LOW);
+      for (int i=0;i<7;i++) {
+        const int dataIndex = static_cast<int>(content);
+        digitalWrite(this->segmentPin[i], segmentData[dataIndex][i]);
       }
-      case 1: {
-        digitalWrite(this->segmentPin[0], LOW);//1
-        digitalWrite(this->segmentPin[1], HIGH);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], LOW);
-        digitalWrite(this->segmentPin[4], LOW);
-        digitalWrite(this->segmentPin[5], LOW);
-        digitalWrite(this->segmentPin[6], LOW);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
+      break;
+    }
+    case RIGHT: {
+      digitalWrite(this->segmentVcc[0], LOW);
+      digitalWrite(this->segmentVcc[1], HIGH);
+      for (int i=0;i<7;i++) {
+        const int dataIndex = static_cast<int>(content);
+        digitalWrite(this->segmentPin[i], segmentData[dataIndex][i]);
       }
-      case 2: {
-        digitalWrite(this->segmentPin[0], HIGH);//2
-        digitalWrite(this->segmentPin[1], HIGH);
-        digitalWrite(this->segmentPin[2], LOW);
-        digitalWrite(this->segmentPin[3], HIGH);
-        digitalWrite(this->segmentPin[4], HIGH);
-        digitalWrite(this->segmentPin[5], LOW);
-        digitalWrite(this->segmentPin[6], HIGH);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case 3: {
-        digitalWrite(this->segmentPin[0], HIGH);//3
-        digitalWrite(this->segmentPin[1], HIGH);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], HIGH);
-        digitalWrite(this->segmentPin[4], LOW);
-        digitalWrite(this->segmentPin[5], LOW);
-        digitalWrite(this->segmentPin[6], HIGH);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case 4: {
-        digitalWrite(this->segmentPin[0], LOW);//4
-        digitalWrite(this->segmentPin[1], HIGH);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], LOW);
-        digitalWrite(this->segmentPin[4], LOW);
-        digitalWrite(this->segmentPin[5], HIGH);
-        digitalWrite(this->segmentPin[6], HIGH);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case 5: {
-        digitalWrite(this->segmentPin[0], HIGH);//5
-        digitalWrite(this->segmentPin[1], LOW);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], HIGH);
-        digitalWrite(this->segmentPin[4], LOW);
-        digitalWrite(this->segmentPin[5], HIGH);
-        digitalWrite(this->segmentPin[6], HIGH);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case 6: {
-        digitalWrite(this->segmentPin[0], HIGH);//6
-        digitalWrite(this->segmentPin[1], LOW);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], HIGH);
-        digitalWrite(this->segmentPin[4], HIGH);
-        digitalWrite(this->segmentPin[5], HIGH);
-        digitalWrite(this->segmentPin[6], HIGH);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case 7: {
-        digitalWrite(this->segmentPin[0], HIGH);//7
-        digitalWrite(this->segmentPin[1], HIGH);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], LOW);
-        digitalWrite(this->segmentPin[4], LOW);
-        digitalWrite(this->segmentPin[5], HIGH);
-        digitalWrite(this->segmentPin[6], LOW);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case 8: {
-        digitalWrite(this->segmentPin[0], HIGH);
-        digitalWrite(this->segmentPin[1], HIGH);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], HIGH);
-        digitalWrite(this->segmentPin[4], HIGH);
-        digitalWrite(this->segmentPin[5], HIGH);
-        digitalWrite(this->segmentPin[6], HIGH);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case 9: {
-        digitalWrite(this->segmentPin[0], HIGH);//9
-        digitalWrite(this->segmentPin[1], HIGH);
-        digitalWrite(this->segmentPin[2], HIGH);
-        digitalWrite(this->segmentPin[3], HIGH);
-        digitalWrite(this->segmentPin[4], LOW);
-        digitalWrite(this->segmentPin[5], HIGH);
-        digitalWrite(this->segmentPin[6], HIGH);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
-      case None: {
-        digitalWrite(this->segmentPin[0], LOW);//nothing
-        digitalWrite(this->segmentPin[1], LOW);
-        digitalWrite(this->segmentPin[2], LOW);
-        digitalWrite(this->segmentPin[3], LOW);
-        digitalWrite(this->segmentPin[4], LOW);
-        digitalWrite(this->segmentPin[5], LOW);
-        digitalWrite(this->segmentPin[6], LOW);
-        digitalWrite(this->segmentPin[7], displayDots);
-        break;
-      }
+      break;
     }
   }
+  digitalWrite(this->segmentPin[7], displayDots);
+}
+
+void Actuator::segmentStop() {
+  for (int i=0;i<7;i++) digitalWrite(this->segmentPin[i], LOW);
+  digitalWrite(this->segmentVcc[0], LOW);
+  digitalWrite(this->segmentVcc[1], LOW);
+}
+
+void Actuator::restartSegment() {
+  digitalWrite(this->segmentVcc[0], HIGH);
+  digitalWrite(this->segmentVcc[1], HIGH);
 }
 
 void Actuator::motor(Side side, const unsigned long ms) {
@@ -286,23 +63,29 @@ void Actuator::motor(Side side, const unsigned long ms) {
   while (true) {
     nowMillis = millis();
     switch (side) {
-      case L: {
-        digitalWrite(this->clockPin, 1);
+      case LEFT: {
+        //digitalWrite(this->clockPin, 1);
         analogWrite(this->motorPin[0], 50);
         analogWrite(this->motorPin[1], 0);
-        digitalWrite(this->clockPin, 0);
+        //digitalWrite(this->clockPin, 0);
         break;
       }
-      case R: {
-        digitalWrite(this->clockPin, 1);
+      case RIGHT: {
         analogWrite(this->motorPin[0], 0);
         analogWrite(this->motorPin[1], 50);
-        digitalWrite(this->clockPin, 0);
         break;
       }
     }
-    motorStop();
+    digitalWrite(this->clockPin, 1);
+    delayMicroseconds(630);
+    digitalWrite(this->clockPin, 0);
+    delayMicroseconds(630);
+    //motorStop();
     if (nowMillis - prevMillis >= ms) {
+      digitalWrite(this->clockPin, 1);
+      digitalWrite(this->motorPin[0], 0);
+      digitalWrite(this->motorPin[1], 0);
+      digitalWrite(this->clockPin, 0);
       break;
     }
   }
@@ -315,6 +98,36 @@ void Actuator::motorStop() {
   digitalWrite(this->clockPin, 0);
 }
 
-void Actuator::buzzer(const int hertz) {
+void Actuator::buzzer(const int hertz, unsigned long ms) {
+  unsigned long prevMillis = millis();
+  unsigned long nowMillis = 0;
   tone(this->buzzerPin, hertz);
+
+  while (true) {
+    nowMillis = millis();
+    if (nowMillis - prevMillis >= ms) {
+      noTone(this->buzzerPin);
+    }
+  }
+}
+
+void Actuator::stepingMotor(Side side, const int step) {
+  switch (side) {
+    case RIGHT: {
+      for (int i=0;i<4;i++) {
+        digitalWrite(stMotorPin[i], steps[step][i]);
+      }
+      break;
+    }
+    case LEFT: {
+      for (int i=0;i<4;i++) {
+        digitalWrite(stMotorPin[i], steps[step][3-i]);
+      }
+      break;
+    }
+  }
+  digitalWrite(this->clockPin, 1);
+  delayMicroseconds(2700);
+  digitalWrite(this->clockPin, 0);
+  delayMicroseconds(2700);
 }
