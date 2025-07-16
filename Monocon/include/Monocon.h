@@ -1,6 +1,16 @@
 #ifndef Monocon_h
 #define Monocon_h
     #include <Arduino.h>
+    // 可変抵抗の抵抗値の左右中央の値
+    // left
+    #define minVRL 0
+    #define maxVRL 489
+    // center
+    #define minVRC 490
+    #define maxVRC 510
+    // right
+    #define minVRR 511
+    #define maxVRR 1023
     class Actuator {
       private:
         const int segmentData[21][7] = {
@@ -36,11 +46,11 @@
 
       public:
         const int steps[4][4] = {{1,0,0,1},{1,0,1,0},{0,1,1,0},{0,1,0,1}};
-        enum Side {
+        enum class Side {
             LEFT,
             RIGHT
         };
-        enum Content {
+        enum class Content {
             Num0,
             Num1,
             Num2,

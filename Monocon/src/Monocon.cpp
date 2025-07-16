@@ -1,6 +1,9 @@
 #include <Arduino.h>
 #include <Monocon.h>
 
+using Side = Actuator::Side;
+using Content = Actuator::Content;
+
 Actuator::Actuator(
   const int clockPin,
   const int buzzerPin,
@@ -24,7 +27,7 @@ void Actuator::segment(Side side, Content content, bool displayDots) {
   digitalWrite(this->clockPin, LOW);
 
   switch (side) {
-    case LEFT: {
+    case Side::LEFT: {
       digitalWrite(this->segmentVcc[0], HIGH);
       digitalWrite(this->segmentVcc[1], LOW);
       for (int i=0;i<7;i++) {
@@ -33,7 +36,7 @@ void Actuator::segment(Side side, Content content, bool displayDots) {
       }
       break;
     }
-    case RIGHT: {
+    case Side::RIGHT: {
       digitalWrite(this->segmentVcc[0], LOW);
       digitalWrite(this->segmentVcc[1], HIGH);
       for (int i=0;i<7;i++) {
@@ -63,14 +66,14 @@ void Actuator::motor(Side side, const unsigned long ms) {
   while (true) {
     nowMillis = millis();
     switch (side) {
-      case LEFT: {
+      case Side::LEFT: {
         //digitalWrite(this->clockPin, 1);
         analogWrite(this->motorPin[0], 50);
         analogWrite(this->motorPin[1], 0);
         //digitalWrite(this->clockPin, 0);
         break;
       }
-      case RIGHT: {
+      case Side::RIGHT: {
         analogWrite(this->motorPin[0], 0);
         analogWrite(this->motorPin[1], 50);
         break;
@@ -113,13 +116,13 @@ void Actuator::buzzer(const int hertz, unsigned long ms) {
 
 void Actuator::stepingMotor(Side side, const int step) {
   switch (side) {
-    case RIGHT: {
+    case Side::RIGHT: {
       for (int i=0;i<4;i++) {
         digitalWrite(stMotorPin[i], steps[step][i]);
       }
       break;
     }
-    case LEFT: {
+    case Side::LEFT: {
       for (int i=0;i<4;i++) {
         digitalWrite(stMotorPin[i], steps[step][3-i]);
       }

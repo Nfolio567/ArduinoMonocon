@@ -2,6 +2,9 @@
 #include <Monocon.h>
 #include <TimerThree.h>
 
+using Side = Actuator::Side;
+using Content = Actuator::Content;
+
 const int motor[] = {6,7};
 const int stMotor[4] = {2, 3, 4, 5};
 const int clk = 11;
@@ -22,18 +25,20 @@ void setup() {
 
 void loop() {
   actuator.segmentStop();
-  actuator.motor(Actuator::RIGHT, 1);
-  actuator.segment(Actuator::LEFT, Actuator::C);
+  actuator.stepingMotor(Side::RIGHT, step);
+  step++;
+  if(step == 4) step=0;
+  actuator.segment(Side::LEFT, Content::C);
   delay(1);
   actuator.segmentStop();
-  actuator.motor(Actuator::RIGHT, 1);
-  actuator.segment(Actuator::RIGHT, Actuator::d);
+  actuator.stepingMotor(Side::RIGHT, step);
+  step++;
+  if(step == 4) step=0;
+  actuator.segment(Side::RIGHT, Content::d);
   delay(1);
 
   /*for (int i=0;i<120;i++) {
     actuator.stepingMotor(Actuator::RIGHT, step);
-    step++;
-    if(step == 4) step=0;
   }
   delay(1000);*/
 }
