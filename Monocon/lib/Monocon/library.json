@@ -1,0 +1,9 @@
+{
+  "name": "Monocon",
+  "version": "1.0",
+  "frameworks": "arduino",
+  "platforms":
+  [
+    "atmelavr"
+  ]
+}

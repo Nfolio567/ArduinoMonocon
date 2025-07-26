@@ -1,6 +1,6 @@
 #ifndef Monocon_h
 #define Monocon_h
-    #include <Arduino.h>
+    //#include <Arduino.h>
     // 可変抵抗の抵抗値の左右中央の値
     // left
     #define minVRL 0
@@ -13,7 +13,7 @@
     #define maxVRR 1023
     class Actuator {
       private:
-        const int segmentData[21][7] = {
+        const int segmentData[26][7] = {
           {1, 1, 1, 1, 1, 1, 0}, // 0       <====0====>
           {0, 1, 1, 0, 0, 0, 0}, // 1      ^           ^
           {1, 1, 0, 1, 1, 0, 1}, // 2      ║5          ║1
@@ -30,10 +30,15 @@
           {0, 1, 1, 1, 1, 0, 1}, // d
           {1, 0, 0, 1, 1, 1, 1}, // E
           {1, 0, 0, 0, 1, 1, 1}, // F
+          {1, 0, 1, 1, 1, 1, 0}, // G
+          {0, 1, 1, 0, 1, 1, 0}, // H
+          {1, 0, 1, 0, 1, 1, 1}, // K
           {0, 0, 0, 1, 1, 1, 0}, // L
           {1, 1, 1, 0, 1, 1, 0}, // M
+          {0, 0, 1, 0, 1, 0, 1}, // n
           {0, 0, 0, 0, 1, 0, 1}, // r
           {0, 0, 1, 1, 0, 1, 1}, // S
+          {0, 1, 0, 1, 0, 1, 0}, // W
           {0, 0, 0, 0, 0, 0, 0} // None 
         };
 
@@ -67,10 +72,15 @@
             d,
             E,
             F,
+            G,
+            H,
+            K,
             L,
             M,
+            n,
             r,
             S,
+            W,
             None
         };
 
@@ -82,45 +92,46 @@
          * @param motorPin
          * @param stMotorPin
          */
-        Actuator(const int clockPin = 0, const int buzzerPin = 0, const int segmentPin[8] = 0, const int segmentVcc[2] = 0, const int motorPin[2] = 0, const int stMotorPin[4] = 0);
+        explicit Actuator(int clockPin = 0, int buzzerPin = 0, const int segmentPin[8] = nullptr, const int segmentVcc[2] = nullptr, const int motorPin[2] = nullptr, const int stMotorPin[4] = nullptr);
         ~Actuator();
         /**
          * @param side LEFT or RIGHT
          * @param content Content to be displayed
          * @param displayDots Whether to display dot or not(false)
          */
-        void segment(Side side, Content content, bool displayDots = false);
+        void segment(Side side, Content content, bool displayDots = false) const;
         /**
          * Turn off the segment
          */
-        void segmentStop();
+        void segmentStop() const;
         /**
          * Restart the segment
          */
-        void restartSegment();
+        void restartSegment() const;
 
         /**
          * Run the motor
          * @param side LEFT or RIGHT
          * @param ms Running time
          */
-        void motor(Side side, const unsigned long ms);
+        void motor(Side side, unsigned long ms) const;
         /**
          * Stop the motor
          */
-        void motorStop();
+        void motorStop() const;
         
         /**
          * Sound the buzzer
          * @param hertz Sounding frequency
          * @param ms Sounding time
          */
-        void buzzer(const int hertz, unsigned long ms);
+        void buzzer(int hertz, unsigned long ms) const;
 
         /**
          * Run Stepping motor
+         * @param side LEFT or RIGHT
          * @param step Specifies which step to activate (not how many steps to move)
          */
-        void stepingMotor(Side side, const int step);
+        void steppingMotor(Side side, int step) const;
     };
 #endif
