@@ -4,12 +4,12 @@
     // 可変抵抗の抵抗値の左右中央の値
     // left
     #define minVRL 0
-    #define maxVRL 489
+    #define maxVRL 479
     // center
-    #define minVRC 490
-    #define maxVRC 510
+    #define minVRC 480
+    #define maxVRC 530
     // right
-    #define minVRR 511
+    #define minVRR 531
     #define maxVRR 1023
     class Actuator {
       private:
@@ -31,7 +31,7 @@
           {1, 0, 0, 1, 1, 1, 1}, // E
           {1, 0, 0, 0, 1, 1, 1}, // F
           {1, 0, 1, 1, 1, 1, 0}, // G
-          {0, 1, 1, 0, 1, 1, 0}, // H
+          {0, 1, 1, 0, 1, 1, 1}, // H
           {1, 0, 1, 0, 1, 1, 1}, // K
           {0, 0, 0, 1, 1, 1, 0}, // L
           {1, 1, 1, 0, 1, 1, 0}, // M
@@ -114,7 +114,7 @@
          * @param side LEFT or RIGHT
          * @param ms Running time
          */
-        void motor(Side side, unsigned long ms) const;
+        void motor(Side side, float pmw, unsigned long ms) const;
         /**
          * Stop the motor
          */

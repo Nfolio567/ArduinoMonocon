@@ -45,6 +45,7 @@ Actuator::~Actuator() = default;
 
 void Actuator::segment(const Side side, const Content content, const bool displayDots) const {
   digitalWrite(this->clockPin, LOW);
+  for (int i=0;i<7;i++) digitalWrite(this->segmentPin[i], LOW);
 
   switch (side) {
     case Side::LEFT: {
@@ -81,28 +82,26 @@ void Actuator::restartSegment() const {
 }
 
 
-void Actuator::motor(const Side side, const unsigned long ms) const {
+void Actuator::motor(const Side side, const float pmw, const unsigned long ms) const {
   unsigned long prevMillis = millis();
   unsigned long nowMillis = 0;
   while (true) {
     nowMillis = millis();
     switch (side) {
       case Side::LEFT: {
-        analogWrite(this->motorPin[0], 50);
+        analogWrite(this->motorPin[0], pmw);
         analogWrite(this->motorPin[1], 0);
         break;
       }
       case Side::RIGHT: {
         analogWrite(this->motorPin[0], 0);
-        analogWrite(this->motorPin[1], 50);
+        analogWrite(this->motorPin[1], pmw);
         break;
       }
     }
     digitalWrite(this->clockPin, 1);
-    delayMicroseconds(630);
+    delayMicroseconds(2040);
     digitalWrite(this->clockPin, 0);
-    delayMicroseconds(630);
-    //motorStop();
     if (nowMillis - prevMillis >= ms) {
       digitalWrite(this->clockPin, 1);
       digitalWrite(this->motorPin[0], 0);
@@ -114,10 +113,12 @@ void Actuator::motor(const Side side, const unsigned long ms) const {
 }
 
 void Actuator::motorStop() const {
-  digitalWrite(this->clockPin,1);
   digitalWrite(this->motorPin[0],1);
   digitalWrite(this->motorPin[1],1);
+  digitalWrite(this->clockPin, 1);
+  delayMicroseconds(630);
   digitalWrite(this->clockPin, 0);
+  delayMicroseconds(630);
 }
 
 
