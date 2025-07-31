@@ -76,13 +76,8 @@ void Actuator::segmentStop() const {
   digitalWrite(this->segmentVcc[1], LOW);
 }
 
-void Actuator::restartSegment() const {
-  digitalWrite(this->segmentVcc[0], HIGH);
-  digitalWrite(this->segmentVcc[1], HIGH);
-}
 
-
-void Actuator::motor(const Side side, const float pmw, const unsigned long ms) const {
+void Actuator::motor(const Side side, const int pmw, const unsigned long ms) const {
   unsigned long prevMillis = millis();
   unsigned long nowMillis = 0;
   while (true) {

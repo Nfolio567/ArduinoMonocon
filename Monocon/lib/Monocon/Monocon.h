@@ -51,10 +51,12 @@
 
       public:
         const int steps[4][4] = {{1,0,0,1},{1,0,1,0},{0,1,1,0},{0,1,0,1}};
+
         enum class Side {
             LEFT,
             RIGHT
         };
+
         enum class Content {
             Num0,
             Num1,
@@ -84,48 +86,45 @@
             None
         };
 
-        /**
-         * @param clockPin 
-         * @param buzzerPin
-         * @param segmentPin
-         * @param segmentVcc
-         * @param motorPin
-         * @param stMotorPin
-         */
         explicit Actuator(int clockPin = 0, int buzzerPin = 0, const int segmentPin[8] = nullptr, const int segmentVcc[2] = nullptr, const int motorPin[2] = nullptr, const int stMotorPin[4] = nullptr);
+
         ~Actuator();
+
         /**
          * @param side LEFT or RIGHT
          * @param content Content to be displayed
          * @param displayDots Whether to display dot or not(false)
          */
         void segment(Side side, Content content, bool displayDots = false) const;
+
         /**
          * Turn off the segment
          */
         void segmentStop() const;
-        /**
-         * Restart the segment
-         */
-        void restartSegment() const;
+
 
         /**
          * Run the motor
          * @param side LEFT or RIGHT
+         * @param pmw PMW (0~255)
          * @param ms Running time
          */
-        void motor(Side side, float pmw, unsigned long ms) const;
+        void motor(Side side, int pmw, unsigned long ms) const;
+
         /**
          * Stop the motor
          */
         void motorStop() const;
+
         
         /**
          * Sound the buzzer
+         * (正直、全然使わなかった...)
          * @param hertz Sounding frequency
          * @param ms Sounding time
          */
         void buzzer(int hertz, unsigned long ms) const;
+
 
         /**
          * Run Stepping motor
