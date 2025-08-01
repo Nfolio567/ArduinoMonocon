@@ -1,0 +1,27 @@
+name: 'Convert to zip'
+run-name: 'Convert to zip'
+on: 
+  push:
+    branches:
+      - '"master"'
+jobs:
+  Convert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate Archive
+        working-directory: lib
+        run: zip -r Monocon.zip Monocon
+
+      - name: Install AWS CLI
+        run: sudo apt-get update && sudo apt-get install -y awscli
+
+      - name: Upload to R2 bucket (public)
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_EC2_METADATA_DISABLED: true
+        run: |
+          aws s3 cp ./lib/Monocon.zip s3://your-bucket-name/Monocon.zip \
+            --endpoint-url=https://${{ secrets.R2_ACCOUNT_KEY }}.r2.cloudflarestorage.com
