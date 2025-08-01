@@ -5,7 +5,7 @@
 ├── include
 │   └── README
 ├── lib
-│   ├── Monocon
+│   ├── Monocon ←ライブラリ本体
 │   │   ├── example
 │   │   │   ├── Motor_n_Segment
 │   │   │   │   └── Motor_n_Segment.ino
