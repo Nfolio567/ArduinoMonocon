@@ -34,7 +34,9 @@ Actuator actuator(int clockPin, int buzzerPin, int segmentPin[8], int segmentVcc
 - Actuator::Content
   
   Number: Num0, Num1, Num2, Num3, Num4, Num5, Num6, Num7, Num8, Num9
+
   Alphabet: A, b, C, d, E, F, G, H, K, L, M, n, r, S, W
+
   No content: None
   
   
